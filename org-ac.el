@@ -99,33 +99,42 @@
 (org-ac--log-set-level 'trace)
 
 
+(defun* org-ac--show-message (msg &rest args)
+  (apply 'message (concat "[ORG-AC] " msg) args)
+  nil)
+
 (defun org-ac--complete-close-option-at-current-point ()
-  (yaxception:$
-    (yaxception:try
-      (org-ac--trace "start complete close option at current point")
-      (when (save-excursion
-              (re-search-backward "#\\+\\(begin\\|BEGIN\\)_\\([a-zA-Z0-9]+\\)\\=" nil t))
-        (let* ((opennm (match-string-no-properties 1))
-               (typenm (match-string-no-properties 2))
-               (closenm (cond ((string= opennm "begin") "end")
-                              ((string= opennm "BEGIN") "END")))
-               (pt (point))
-               (case-fold-search t))
-          (if (not (re-search-forward (concat "^[ \t]*#\\+" closenm "_") nil t))
-              (progn (org-return-indent)
-                     (insert "#+" closenm "_" typenm))
-            (let ((currtypenm (if (re-search-forward "\\=\\([a-zA-Z0-9]+\\)" nil t)
-                                  (match-string-no-properties 1)
-                                "")))
-              (backward-delete-char (+ (length closenm)
-                                       1
-                                       (length currtypenm)))
-              (insert closenm "_" typenm)))
-          (goto-char pt))))
-    (yaxception:catch 'error e
-      (org-ac--error "failed complete close option at current point : %s\n%s"
-                     (yaxception:get-text e)
-                     (yaxception:get-stack-trace-string e)))))
+  (let ((pt (point)))
+    (yaxception:$
+      (yaxception:try
+        (org-ac--trace "start complete close option at current point")
+        (when (save-excursion
+                (re-search-backward "#\\+\\(begin\\|BEGIN\\)_\\([a-zA-Z0-9]+\\)\\=" nil t))
+          (let* ((opennm (match-string-no-properties 1))
+                 (typenm (match-string-no-properties 2))
+                 (closenm (cond ((string= opennm "begin") "end")
+                                ((string= opennm "BEGIN") "END")))
+                 (case-fold-search t))
+            (if (or (not (re-search-forward "^[ \t]*#\\+" nil t))
+                    (not (re-search-forward (concat "\\=" closenm "_") nil t)))
+                (progn (goto-char pt)
+                       (org-return-indent)
+                       (insert "#+" closenm "_" typenm))
+              (let ((currtypenm (if (re-search-forward "\\=\\([a-zA-Z0-9]+\\)" nil t)
+                                    (match-string-no-properties 1)
+                                  "")))
+                (backward-delete-char (+ (length closenm)
+                                         1
+                                         (length currtypenm)))
+                (insert closenm "_" typenm)))
+            (goto-char pt))))
+      (yaxception:catch 'error e
+        (org-ac--show-message "Failed complete close option : %s" (yaxception:get-text e))
+        (org-ac--error "failed complete close option at current point : %s\n%s"
+                       (yaxception:get-text e)
+                       (yaxception:get-stack-trace-string e))
+        (goto-char pt)))))
+
 
 (defvar ac-source-org-ac-tex
   '((candidates . ac-pcmp/get-ac-candidates)
