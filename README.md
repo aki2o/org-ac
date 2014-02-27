@@ -33,7 +33,7 @@ Download org-ac.el and put it on your load-path.
 
 ### Dependency
 
--   [auto-complete-pcmp.el](https://github.com/aki2o/auto-complete-pcmp/master/auto-complete-pcmp)
+-   [auto-complete-pcmp.el](https://github.com/aki2o/auto-complete-pcmp)
 -   [log4e.el](https://github.com/aki2o/log4e)
 -   [yaxception.el](https://github.com/aki2o/yaxception)
 

@@ -31,7 +31,7 @@ org-ac.elをダウンロードし、load-pathの通った場所に配置して�
 
 ### 依存拡張
 
--   [auto-complete-pcmp.el](https://github.com/aki2o/auto-complete-pcmp/master/auto-complete-pcmp)
+-   [auto-complete-pcmp.el](https://github.com/aki2o/auto-complete-pcmp)
 -   [log4e.el](https://github.com/aki2o/log4e)
 -   [yaxception.el](https://github.com/aki2o/yaxception)
 
