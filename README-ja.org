@@ -1,0 +1,66 @@
+#+OPTIONS: toc:nil
+
+* これは何？
+  
+  org-modeでauto-complete.elの補完を提供するEmacsの拡張です。  
+  M-TABによる補完機能をauto-complete.elのインタフェースで利用できるようになります。  
+
+  
+* デモ
+
+  [[file:image/demo.gif][demo]]
+  
+  
+* インストール
+  
+*** package.elを使う場合
+    
+    2014/02/28 登録申請中
+
+*** el-get.elを使う場合
+
+    2014/02/28 登録申請中
+
+*** auto-install.elを使う場合
+    
+    #+BEGIN_SRC lisp
+(auto-install-from-url "https://raw.github.com/aki2o/org-ac/master/org-ac.el")
+    #+END_SRC
+    
+    - 下記の依存拡張もそれぞれインストールする必要があります
+      
+*** 手動の場合
+    
+    org-ac.elをダウンロードし、load-pathの通った場所に配置して下さい。
+    
+    - 下記の依存拡張もそれぞれインストールする必要があります
+      
+*** 依存拡張
+    
+    - [[https://github.com/aki2o/auto-complete-pcmp/master/auto-complete-pcmp][auto-complete-pcmp.el]]
+    - [[https://github.com/aki2o/log4e][log4e.el]]
+    - [[https://github.com/aki2o/yaxception][yaxception.el]]
+      
+      
+* 設定
+  
+  #+BEGIN_SRC lisp
+(require 'org-ac)
+
+;; Make config suit for you. About the config item, eval the following sexp.
+;; (customize-group "org-ac")
+
+(org-ac/config-default)
+  #+END_SRC
+
+  
+* 動作確認
+  
+  - Emacs ... GNU Emacs 24.3.1 (i686-pc-linux-gnu, GTK+ Version 3.4.2) of 2013-08-22 on chindi02, modified by Debian
+  - auto-complete-pcmp.el ... 0.0.1
+  - log4e.el ... 0.2.0
+  - yaxception.el ... 0.1
+    
+    
+  *Enjoy!!!*
+  

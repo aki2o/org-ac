@@ -1,43 +1,41 @@
-[Japanese](https://github.com/aki2o/org-ac/blob/master/README-ja.md)
+# これは何？
 
-# What's this?
+org-modeでauto-complete.elの補完を提供するEmacsの拡張です。  
+M-TABによる補完機能をauto-complete.elのインタフェースで利用できるようになります。  
 
-This is a extension of Emacs that provide auto-complete sources for org-mode.  
-You'll be able to use auto-complete as substitute for pcomplete which is bound to M-TAB.  
-
-# Demo
+# デモ
 
 ![demo](image/demo.gif)
 
-# Install
+# インストール
 
-### If use package.el
+### package.elを使う場合
 
-2014/02/27 Now application
+2014/02/28 登録申請中
 
-### If use el-get.el
+### el-get.elを使う場合
 
-2014/02/27 Now application
+2014/02/28 登録申請中
 
-### If use auto-install.el
+### auto-install.elを使う場合
 
 ```lisp
 (auto-install-from-url "https://raw.github.com/aki2o/org-ac/master/org-ac.el")
 ```
--   In this case, you need to install each of the following dependency.
+-   下記の依存拡張もそれぞれインストールする必要があります
 
-### Manually
+### 手動の場合
 
-Download org-ac.el and put it on your load-path.  
--   In this case, you need to install each of the following dependency.
+org-ac.elをダウンロードし、load-pathの通った場所に配置して下さい。
+-   下記の依存拡張もそれぞれインストールする必要があります
 
-### Dependency
+### 依存拡張
 
 -   [auto-complete-pcmp.el](https://github.com/aki2o/auto-complete-pcmp/master/auto-complete-pcmp)
 -   [log4e.el](https://github.com/aki2o/log4e)
 -   [yaxception.el](https://github.com/aki2o/yaxception)
 
-# Configuration
+# 設定
 
 ```lisp
 (require 'org-ac)
@@ -48,7 +46,7 @@ Download org-ac.el and put it on your load-path.
 (org-ac/config-default)
 ```
 
-# Tested On
+# 動作確認
 
 -   Emacs &#x2026; GNU Emacs 24.3.1 (i686-pc-linux-gnu, GTK+ Version 3.4.2) of 2013-08-22 on chindi02, modified by Debian
 -   auto-complete-pcmp.el &#x2026; 0.0.1
