@@ -5,7 +5,7 @@
 ;; Author: Hiroaki Otsu <ootsuhiroaki@gmail.com>
 ;; Keywords: org, completion
 ;; URL: https://github.com/aki2o/org-ac
-;; Version: 0.0.1
+;; Version: 0.0.2
 ;; Package-Requires: ((auto-complete-pcmp "0.0.1") (log4e "0.2.0") (yaxception "0.1"))
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -76,6 +76,7 @@
 (eval-when-compile (require 'cl))
 (require 'org)
 (require 'auto-complete-pcmp)
+(require 'rx)
 (require 'log4e)
 (require 'yaxception)
 
@@ -109,7 +110,7 @@
       (yaxception:try
         (org-ac--trace "start complete close option at current point")
         (when (save-excursion
-                (re-search-backward "#\\+\\(begin\\|BEGIN\\)_\\([a-zA-Z0-9]+\\)\\=" nil t))
+                (re-search-backward "#\\+\\(begin\\|BEGIN\\)_\\([a-zA-Z0-9]+\\) *\\=" nil t))
           (let* ((opennm (match-string-no-properties 1))
                  (typenm (match-string-no-properties 2))
                  (closenm (cond ((string= opennm "begin") "end")
@@ -118,8 +119,8 @@
             (if (or (not (re-search-forward "^[ \t]*#\\+" nil t))
                     (not (re-search-forward (concat "\\=" closenm "_") nil t)))
                 (progn (goto-char pt)
-                       (org-return-indent)
-                       (insert "#+" closenm "_" typenm))
+                       (insert "\n#+" closenm "_" typenm)
+                       (org-cycle))
               (let ((currtypenm (if (re-search-forward "\\=\\([a-zA-Z0-9]+\\)" nil t)
                                     (match-string-no-properties 1)
                                   "")))
@@ -135,6 +136,9 @@
                        (yaxception:get-stack-trace-string e))
         (goto-char pt)))))
 
+(defun org-ac--get-link-head-candidates ()
+  (append (ac-pcmp/get-ac-candidates)
+          (mapcar (lambda (x) (concat x ":")) org-link-types)))
 
 (defvar ac-source-org-ac-tex
   '((candidates . ac-pcmp/get-ac-candidates)
@@ -168,9 +172,13 @@
     (cache)
     (action . ac-pcmp/do-ac-action)))
 
-(defvar ac-source-org-ac-link
-  '((candidates . ac-pcmp/get-ac-candidates)
-    (prefix . "\\[\\([^\\]]*\\)")
+(defvar org-ac--regexp-link-head (rx-to-string `(and "["
+                                                     (* (any " \t"))
+                                                     "["
+                                                     (group (* (not (any ":*]")))))))
+(defvar ac-source-org-ac-link-head
+  `((candidates . org-ac--get-link-head-candidates)
+    (prefix . ,org-ac--regexp-link-head)
     (symbol . "l")
     (requires . 0)
     (cache)
@@ -189,8 +197,16 @@
 
 (defvar ac-source-org-ac-option-key
   '((candidates . ac-pcmp/get-ac-candidates)
-    (prefix . "\\(?:^\\|[ \t]\\)#\\+[a-zA-Z0-9_:=-]+ +\\([a-zA-Z0-9_-]*\\)")
+    (prefix . "^[ \t]*#\\+[a-zA-Z0-9_:=-]+ +\\([a-zA-Z0-9_-]*\\)")
     (symbol . "k")
+    (requires . 0)
+    (cache)
+    (action . ac-pcmp/do-ac-action)))
+
+(defvar ac-source-org-ac-option-options
+  '((candidates . ac-pcmp/get-ac-candidates)
+    (prefix . "^[ \t]*#\\+\\(?:options\\|OPTIONS\\):.* +\\([a-zA-Z0-9_-]*\\)")
+    (symbol . "x")
     (requires . 0)
     (cache)
     (action . ac-pcmp/do-ac-action)))
@@ -207,9 +223,10 @@
     (add-to-list 'ac-sources 'ac-source-org-ac-head)
     (add-to-list 'ac-sources 'ac-source-org-ac-todo)
     (add-to-list 'ac-sources 'ac-source-org-ac-tag)
-    (add-to-list 'ac-sources 'ac-source-org-ac-link)
+    (add-to-list 'ac-sources 'ac-source-org-ac-link-head)
     (add-to-list 'ac-sources 'ac-source-org-ac-option)
     (add-to-list 'ac-sources 'ac-source-org-ac-option-key)
+    (add-to-list 'ac-sources 'ac-source-org-ac-option-options)
     (auto-complete-mode t)))
 
 ;;;###autoload
