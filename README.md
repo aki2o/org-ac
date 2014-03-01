@@ -1,4 +1,4 @@
-[Japanese](https://github.com/aki2o/org-ac/blob/master/README-ja.md)
+![Japanese](https://github.com/aki2o/org-ac/blob/master/README-ja.md)
 
 # What's this?
 
@@ -13,7 +13,7 @@ You'll be able to use auto-complete as substitute for pcomplete which is bound t
 
 ### If use package.el
 
-2014/02/27 Now application
+2014/03/02 It's available by using melpa.
 
 ### If use el-get.el
 
@@ -33,9 +33,9 @@ Download org-ac.el and put it on your load-path.
 
 ### Dependency
 
--   [auto-complete-pcmp.el](https://github.com/aki2o/auto-complete-pcmp)
--   [log4e.el](https://github.com/aki2o/log4e)
--   [yaxception.el](https://github.com/aki2o/yaxception)
+-   ![auto-complete-pcmp.el](https://github.com/aki2o/auto-complete-pcmp)
+-   ![log4e.el](https://github.com/aki2o/log4e)
+-   ![yaxception.el](https://github.com/aki2o/yaxception)
 
 # Configuration
 

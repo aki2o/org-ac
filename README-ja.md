@@ -11,7 +11,7 @@ M-TABによる補完機能をauto-complete.elのインタフェースで利用�
 
 ### package.elを使う場合
 
-2014/02/28 登録申請中
+2014/03/02 melpaリポジトリからインストール可能
 
 ### el-get.elを使う場合
 
@@ -31,9 +31,9 @@ org-ac.elをダウンロードし、load-pathの通った場所に配置して�
 
 ### 依存拡張
 
--   [auto-complete-pcmp.el](https://github.com/aki2o/auto-complete-pcmp)
--   [log4e.el](https://github.com/aki2o/log4e)
--   [yaxception.el](https://github.com/aki2o/yaxception)
+-   ![auto-complete-pcmp.el](https://github.com/aki2o/auto-complete-pcmp)
+-   ![log4e.el](https://github.com/aki2o/log4e)
+-   ![yaxception.el](https://github.com/aki2o/yaxception)
 
 # 設定
 
