@@ -1,4 +1,4 @@
-;;; org-ac.el --- provide auto-complete sources for org-mode.
+;;; org-ac.el --- Some auto-complete sources for org-mode
 
 ;; Copyright (C) 2014  Hiroaki Otsu
 
@@ -33,7 +33,7 @@
 
 ;;; Installation:
 ;;
-;; Put this to your load-path.
+;; Put this to yoSur load-path.
 ;; And put the following lines in your .emacs or site-start.el file.
 ;; 
 ;; (require 'org-ac)
