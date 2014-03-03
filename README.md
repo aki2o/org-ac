@@ -17,7 +17,7 @@ You'll be able to use auto-complete as substitute for pcomplete which is bound t
 
 ### If use el-get.el
 
-2014/02/27 Now application
+2014/03/03 It's available. But, master branch only.
 
 ### If use auto-install.el
 

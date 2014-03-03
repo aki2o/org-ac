@@ -15,7 +15,7 @@ M-TABによる補完機能をauto-complete.elのインタフェースで利用�
 
 ### el-get.elを使う場合
 
-2014/02/28 登録申請中
+2014/03/03 利用可能。ただし、masterブランチのみです。
 
 ### auto-install.elを使う場合
 
