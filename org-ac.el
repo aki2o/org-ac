@@ -211,6 +211,12 @@
     (cache)
     (action . ac-pcmp/do-ac-action)))
 
+(defvar ac-source-org-ac-file
+  '((init setq ac-filename-cache nil)
+    (candidates . org-ac/file-candidate)
+    (prefix . "\\[file:.*")
+    (action . ac-start)))
+
 
 ;;;###autoload
 (defun org-ac/setup-current-buffer ()
@@ -227,6 +233,7 @@
     (add-to-list 'ac-sources 'ac-source-org-ac-option)
     (add-to-list 'ac-sources 'ac-source-org-ac-option-key)
     (add-to-list 'ac-sources 'ac-source-org-ac-option-options)
+    (add-to-list 'ac-sources 'ac-source-org-ac-file)
     (auto-complete-mode t)))
 
 ;;;###autoload
@@ -234,6 +241,21 @@
   "Do setting recommemded configuration."
   (add-to-list 'ac-modes 'org-mode)
   (add-hook 'org-mode-hook 'org-ac/setup-current-buffer t))
+
+
+(defun org-ac/file-candidate ()
+  "Adds [file: to the normal file completition, plus allows relative paths"
+  (mapcar (lambda (path) (concat "[file:" path)) 
+          (let* ((prefix-with-file ac-prefix)
+                (ac-prefix (replace-regexp-in-string "^\\[file:" "" prefix-with-file)))
+            (if (string-match "^/" ac-prefix)
+                (ac-filename-candidate)
+              (let ((ac-prefix (concat default-directory ac-prefix)))
+                (mapcar (lambda (input) (replace-regexp-in-string (regexp-quote default-directory) "" input))
+                        (ac-filename-candidate))
+                )))
+
+  ))
 
 
 (provide 'org-ac)
