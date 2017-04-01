@@ -182,7 +182,9 @@
     (symbol . "l")
     (requires . 0)
     (cache)
-    (action . ac-pcmp/do-ac-action)))
+    (action . (lambda ()
+                (ac-pcmp/do-ac-action)
+                (ac-start)))))
 
 (defvar ac-source-org-ac-option
   '((candidates . ac-pcmp/get-ac-candidates)
@@ -211,6 +213,15 @@
     (cache)
     (action . ac-pcmp/do-ac-action)))
 
+(defvar ac-source-org-ac-file
+  '((init . (setq ac-filename-cache nil))
+    (candidates . org-ac/file-candidate)
+    (prefix . "\\[file:\\(.*\\)")
+    (symbol . "f")
+    (requires . 0)
+    (action . ac-start)
+    (limit . nil)))
+
 
 ;;;###autoload
 (defun org-ac/setup-current-buffer ()
@@ -227,6 +238,7 @@
     (add-to-list 'ac-sources 'ac-source-org-ac-option)
     (add-to-list 'ac-sources 'ac-source-org-ac-option-key)
     (add-to-list 'ac-sources 'ac-source-org-ac-option-options)
+    (add-to-list 'ac-sources 'ac-source-org-ac-file)
     (auto-complete-mode t)))
 
 ;;;###autoload
@@ -234,6 +246,15 @@
   "Do setting recommemded configuration."
   (add-to-list 'ac-modes 'org-mode)
   (add-hook 'org-mode-hook 'org-ac/setup-current-buffer t))
+
+
+(defun org-ac/file-candidate ()
+  "Adds [file: to the normal file completition, plus allows relative paths"
+  (if (string-match "^[~./]+" ac-prefix)
+      (ac-filename-candidate)
+    (let ((ac-prefix (concat "./" ac-prefix)))
+      (mapcar (lambda (path) (substring path 2))
+              (ac-filename-candidate)))))
 
 
 (provide 'org-ac)
