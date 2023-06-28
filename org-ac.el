@@ -243,7 +243,7 @@
 
 ;;;###autoload
 (defun org-ac/config-default ()
-  "Do setting recommemded configuration."
+  "Do setting recommended configuration."
   (add-to-list 'ac-modes 'org-mode)
   (add-hook 'org-mode-hook 'org-ac/setup-current-buffer t))
 
